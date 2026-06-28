@@ -1,7 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Star, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react'
-import { reviews, siteConfig } from '../config'
+import { siteConfig } from '../config'
+import reviewsData from '../data/reviews.json'
+import type { Review } from '../types/review'
+
+const reviews = reviewsData as Review[]
+const CYCLE_MS = 6000
 
 function Stars({ count }: { count: number }) {
   return (
@@ -15,9 +20,21 @@ function Stars({ count }: { count: number }) {
 
 export function Reviews() {
   const [current, setCurrent] = useState(0)
+  const [paused, setPaused] = useState(false)
 
-  const next = () => setCurrent((c) => (c + 1) % reviews.length)
+  const next = useCallback(
+    () => setCurrent((c) => (c + 1) % reviews.length),
+    [],
+  )
   const prev = () => setCurrent((c) => (c - 1 + reviews.length) % reviews.length)
+
+  useEffect(() => {
+    if (paused || reviews.length <= 1) return
+    const timer = setInterval(next, CYCLE_MS)
+    return () => clearInterval(timer)
+  }, [paused, next])
+
+  const review = reviews[current]
 
   return (
     <section id="reviews" className="section-padding relative overflow-hidden">
@@ -38,30 +55,43 @@ export function Reviews() {
             Fresha Reviews
           </h2>
           <p className="text-ink-muted max-w-xl mx-auto">
-            Don't just take our word for it — see what our clients say on Fresha.
+            Don&apos;t just take our word for it — see what our clients say on Fresha.
           </p>
         </motion.div>
 
-        <div className="relative max-w-2xl mx-auto">
-          <div className="glass rounded-3xl p-8 sm:p-12 min-h-[280px] flex flex-col justify-center">
+        <div
+          className="relative max-w-2xl mx-auto"
+          onMouseEnter={() => setPaused(true)}
+          onMouseLeave={() => setPaused(false)}
+          onFocus={() => setPaused(true)}
+          onBlur={() => setPaused(false)}
+        >
+          <div className="glass rounded-3xl p-8 sm:p-12 min-h-[300px] flex flex-col justify-center">
             <AnimatePresence mode="wait">
               <motion.div
-                key={current}
+                key={review.id}
                 initial={{ opacity: 0, x: 30 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -30 }}
                 transition={{ duration: 0.4 }}
               >
-                <Stars count={reviews[current].rating} />
-                <blockquote className="font-display text-xl sm:text-2xl leading-relaxed my-6">
-                  &ldquo;{reviews[current].text}&rdquo;
-                </blockquote>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-semibold">{reviews[current].name}</p>
-                    <p className="text-sm text-ink-muted">{reviews[current].date}</p>
+                <div className="flex items-center gap-4 mb-5">
+                  <div className="flex items-center justify-center w-12 h-12 rounded-full bg-linear-to-br from-pink-200 to-sky-200 text-ink font-semibold text-lg shrink-0">
+                    {review.initial}
                   </div>
-                  <div className="flex items-center gap-1 text-sm text-ink-muted">
+                  <div>
+                    <p className="font-semibold">{review.name}</p>
+                    <Stars count={review.rating} />
+                  </div>
+                </div>
+
+                <blockquote className="font-display text-xl sm:text-2xl leading-relaxed mb-6">
+                  &ldquo;{review.text}&rdquo;
+                </blockquote>
+
+                <div className="flex items-center justify-between gap-4">
+                  <p className="text-sm text-ink-muted">{review.date}</p>
+                  <div className="flex items-center gap-1 text-sm text-ink-muted shrink-0">
                     <Star size={14} className="fill-amber-400 text-amber-400" />
                     <span>Verified on Fresha</span>
                   </div>
@@ -80,14 +110,14 @@ export function Reviews() {
             </button>
 
             <div className="flex gap-2">
-              {reviews.map((_, i) => (
+              {reviews.map((item, i) => (
                 <button
-                  key={i}
+                  key={item.id}
                   onClick={() => setCurrent(i)}
-                  className={`w-2 h-2 rounded-full transition-all ${
-                    i === current ? 'bg-pink-400 w-6' : 'bg-ink-muted/30'
+                  className={`h-2 rounded-full transition-all ${
+                    i === current ? 'bg-pink-400 w-6' : 'bg-ink-muted/30 w-2'
                   }`}
-                  aria-label={`Go to review ${i + 1}`}
+                  aria-label={`Go to review from ${item.name}`}
                 />
               ))}
             </div>

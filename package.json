@@ -8,8 +8,10 @@
   },
   "scripts": {
     "portfolio": "node scripts/generate-portfolio.mjs",
-    "predev": "node scripts/generate-portfolio.mjs",
-    "prebuild": "node scripts/generate-portfolio.mjs",
+    "reviews": "node scripts/generate-reviews.mjs",
+    "generate": "node scripts/generate-portfolio.mjs && node scripts/generate-reviews.mjs",
+    "predev": "npm run generate",
+    "prebuild": "npm run generate",
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"

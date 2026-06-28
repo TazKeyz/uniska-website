@@ -130,38 +130,6 @@ export const products = [
   },
 ]
 
-// Update with your real Fresha reviews
-export const reviews = [
-  {
-    id: '1',
-    name: 'Sophie M.',
-    rating: 5,
-    text: 'Absolutely stunning press-ons! They lasted two weeks and looked like I had just left the salon. Will definitely order again.',
-    date: '2 weeks ago',
-  },
-  {
-    id: '2',
-    name: 'Emma L.',
-    rating: 5,
-    text: 'The custom set matched my wedding colours perfectly. So many compliments on the day — thank you!',
-    date: '1 month ago',
-  },
-  {
-    id: '3',
-    name: 'Priya K.',
-    rating: 5,
-    text: 'Best press-ons I have ever tried. Easy to apply, perfect fit, and the packaging was gorgeous too.',
-    date: '1 month ago',
-  },
-  {
-    id: '4',
-    name: 'Hannah R.',
-    rating: 5,
-    text: 'Booked through Fresha for a fitting and ordered a set on the spot. Professional, friendly, and talented!',
-    date: '2 months ago',
-  },
-]
-
 export function getWhatsAppUrl(message?: string) {
   const text = encodeURIComponent(message ?? siteConfig.whatsappMessage)
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${text}`

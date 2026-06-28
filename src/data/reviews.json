@@ -1,0 +1,65 @@
+[
+  {
+    "id": "1",
+    "name": "Suzette",
+    "initial": "S",
+    "rating": 5,
+    "text": "The best nail tech in Toti! The attention to detail is really refreshing and the clean and tidy environment makes it even better. My pretty nails make me feel like a million bucks!",
+    "date": "Mon, Apr 6, 2026",
+    "sortOrder": 1
+  },
+  {
+    "id": "2",
+    "name": "Anushka",
+    "initial": "A",
+    "rating": 5,
+    "text": "I always look forward to seeing Uniska. She makes my nails look so beautiful everytime! I've never left disappointed. She's kind and always makes you feel comfortable. Thank you for always giving me lovely nails!!",
+    "date": "Sat, Apr 4, 2026",
+    "sortOrder": 2
+  },
+  {
+    "id": "3",
+    "name": "Robyn",
+    "initial": "R",
+    "rating": 5,
+    "text": "Uniska is so professional, she is thorough with her work and makes sure that every nail is perfect. Highly recommend going to her, you won't be disappointed.",
+    "date": "Wed, Mar 18, 2026",
+    "sortOrder": 3
+  },
+  {
+    "id": "4",
+    "name": "Prevania",
+    "initial": "P",
+    "rating": 5,
+    "text": "Absolutely amazing nail tech! Her work is always neat, precise, and beautiful. She really pays attention to every detail and makes sure each nail is perfect. Highly recommend her if you're looking for quality and professionalism!",
+    "date": "Fri, Mar 13, 2026",
+    "sortOrder": 4
+  },
+  {
+    "id": "5",
+    "name": "Rose E",
+    "initial": "R",
+    "rating": 5,
+    "text": "Thank you so much Uniska for my Beautiful nails! Will Def come back.",
+    "date": "Thu, Mar 12, 2026",
+    "sortOrder": 5
+  },
+  {
+    "id": "6",
+    "name": "Rose E",
+    "initial": "R",
+    "rating": 5,
+    "text": "Uniska is very kind and pays attention to detail, I will always support her.",
+    "date": "Tue, Mar 10, 2026",
+    "sortOrder": 6
+  },
+  {
+    "id": "7",
+    "name": "Suzette",
+    "initial": "S",
+    "rating": 5,
+    "text": "What a treat! Uniska is my favourite and such a perfectionist! Thank you!",
+    "date": "Tue, Mar 10, 2026",
+    "sortOrder": 7
+  }
+]
