@@ -18,6 +18,10 @@
     scroll-behavior: smooth;
   }
 
+  [id] {
+    scroll-margin-top: 6rem;
+  }
+
   body {
     @apply font-body text-ink bg-cream antialiased;
   }

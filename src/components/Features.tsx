@@ -1,32 +1,36 @@
 import { motion } from 'framer-motion'
-import { Heart, Clock, Palette, Package } from 'lucide-react'
+import { Sparkles, MapPin, Palette, ShoppingBag } from 'lucide-react'
 
 const features = [
   {
-    icon: Heart,
-    title: 'Handcrafted Quality',
-    description: 'Each set is carefully designed and quality-checked for a salon-perfect finish.',
-  },
-  {
-    icon: Clock,
-    title: 'Lasts 2+ Weeks',
-    description: 'Premium materials and proper application mean your nails stay flawless for weeks.',
+    icon: Sparkles,
+    title: 'In-Studio Services',
+    description:
+      'Gel overlays, polygel tips, manicures, and nail art — done with care at our Kingsburgh studio.',
   },
   {
     icon: Palette,
-    title: 'Custom Designs',
-    description: "Can't find your dream set? Message me on WhatsApp for a fully bespoke design.",
+    title: 'Custom Nail Art',
+    description:
+      'From French and ombré to chrome and detailed art. Every set tailored to your style.',
   },
   {
-    icon: Package,
-    title: 'Complete Kit',
-    description: 'Every order includes adhesive, glue, file, and cuticle stick — ready to apply.',
+    icon: ShoppingBag,
+    title: 'Press-On Sets',
+    description:
+      'Custom press-on nail sets — browse the shop section and order when you are ready.',
+  },
+  {
+    icon: MapPin,
+    title: 'Easy to Reach',
+    description:
+      'Convenient Kingsburgh location — book your appointment online through Fresha.',
   },
 ]
 
 export function Features() {
   return (
-    <section id="about" className="section-padding">
+    <section id="about" className="section-padding scroll-mt-24">
       <div className="page-container">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -37,9 +41,13 @@ export function Features() {
           <p className="text-sm font-semibold uppercase tracking-widest text-pink-400 mb-3">
             Why Uniska
           </p>
-          <h2 className="font-display text-4xl sm:text-5xl font-semibold">
-            Beauty without the salon wait
+          <h2 className="font-display text-4xl sm:text-5xl font-semibold mb-4">
+            Studio services & press-ons
           </h2>
+          <p className="text-ink-muted max-w-xl mx-auto">
+            Whether you book a gel appointment or order a press-on set, you get the same attention to
+            detail.
+          </p>
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">

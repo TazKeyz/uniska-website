@@ -1,9 +1,9 @@
 // Update these with your real links and details
 export const siteConfig = {
   brandName: 'Uniska Nails Studio',
-  tagline: 'Handcrafted press-on nail sets & nail services',
+  tagline: 'In-studio nail services & custom press-on sets',
   description:
-    'Salon-quality nails in Kingsburgh — gel overlays, nail art, and press-on sets crafted with care.',
+    'Gel overlays, nail art, and manicures at our Kingsburgh studio — plus custom press-on sets you can order from home. Book in-person on Fresha or message on WhatsApp.',
 
   // WhatsApp: 082 887 1300
   whatsappNumber: '27828871300',

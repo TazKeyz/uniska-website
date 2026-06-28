@@ -1,15 +1,16 @@
 import { motion } from 'framer-motion'
-import { Sparkles, Calendar, MessageCircle, Star } from 'lucide-react'
-import { siteConfig, getWhatsAppUrl } from '../config'
+import { Sparkles, Calendar, Star } from 'lucide-react'
+import { siteConfig } from '../config'
 import { BrandName } from './BrandName'
 import { getNailArtPhoto } from '../utils/portfolio'
+
+const offerings = ['Gel & Polygel', 'Nail Art', 'Press-On Sets']
 
 export function Hero() {
   const heroPhoto = getNailArtPhoto(1)
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden pt-24">
-      {/* Background blobs */}
+    <section className="relative min-h-screen flex items-center overflow-hidden pt-24 scroll-mt-24">
       <div className="absolute inset-0 -z-10">
         <div className="absolute top-20 -left-32 w-96 h-96 rounded-full bg-pastel-pink/60 blur-3xl animate-float" />
         <div className="absolute bottom-20 -right-32 w-[28rem] h-[28rem] rounded-full bg-pastel-blue/70 blur-3xl animate-float-delayed" />
@@ -30,26 +31,40 @@ export function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium text-ink-muted mb-6"
             >
               <Sparkles size={16} className="text-pink-400" />
-              Handcrafted with love
+              Kingsburgh nail studio
             </motion.div>
 
             <h1 className="font-display text-5xl sm:text-6xl lg:text-7xl font-semibold leading-[1.1] tracking-tight mb-6">
-              Press-on nails,{' '}
-              <span className="text-gradient">reimagined</span>
+              Nail services &{' '}
+              <span className="text-gradient">press-ons</span>
             </h1>
 
-            <p className="text-lg text-ink-muted leading-relaxed max-w-lg mb-8">
+            <p className="text-lg text-ink-muted leading-relaxed max-w-lg mb-6">
               {siteConfig.description}
             </p>
 
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-wrap gap-2 mb-8">
+              {offerings.map((item) => (
+                <span
+                  key={item}
+                  className="px-3 py-1.5 rounded-full text-xs font-semibold bg-linear-to-r from-pastel-pink/80 to-pastel-blue/80 text-ink"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+
+            <div className="flex flex-col sm:flex-row flex-wrap gap-4">
               <motion.a
-                href="#prices"
+                href={siteConfig.freshaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-linear-to-r from-sky-300 to-blue-300 text-ink shadow-lg shadow-sky-200/50 hover:shadow-xl transition-shadow"
               >
-                View Prices
+                <Calendar size={20} />
+                Book on Fresha
               </motion.a>
 
               <motion.a
@@ -58,34 +73,17 @@ export function Hero() {
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-linear-to-r from-pink-300 to-rose-300 text-ink shadow-lg shadow-pink-200/50 hover:shadow-xl hover:shadow-pink-200/60 transition-shadow"
               >
-                Shop Sets
+                View Press-Ons
               </motion.a>
 
               <motion.a
-                href={getWhatsAppUrl()}
-                target="_blank"
-                rel="noopener noreferrer"
+                href="#prices"
                 whileHover={{ scale: 1.03 }}
                 whileTap={{ scale: 0.98 }}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold glass hover:bg-white/80 transition-colors"
               >
-                <MessageCircle size={20} />
-                WhatsApp Me
+                View Prices
               </motion.a>
-            </div>
-
-            <div className="flex items-center gap-6 mt-10 text-sm text-ink-muted">
-              <a
-                href={siteConfig.freshaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 hover:text-ink transition-colors"
-              >
-                <Calendar size={16} className="text-sky-400" />
-                Book on Fresha
-              </a>
-              <span className="w-1 h-1 rounded-full bg-ink-muted/30" />
-              <span>★ {siteConfig.freshaRating.toFixed(1)} on Fresha</span>
             </div>
           </motion.div>
 
@@ -96,7 +94,6 @@ export function Hero() {
             className="relative hidden lg:block overflow-visible"
           >
             <div className="relative aspect-square max-w-lg mx-auto overflow-visible">
-              {/* Fresha trust card */}
               <motion.a
                 href={siteConfig.freshaUrl}
                 target="_blank"
@@ -109,29 +106,20 @@ export function Hero() {
                 <div className="relative z-10 w-full">
                   <div className="flex justify-center gap-0.5 mb-3">
                     {Array.from({ length: 5 }).map((_, i) => (
-                      <Star
-                        key={i}
-                        size={15}
-                        className="fill-amber-400 text-amber-400"
-                      />
+                      <Star key={i} size={15} className="fill-amber-400 text-amber-400" />
                     ))}
                   </div>
                   <p className="text-white font-display text-2xl font-semibold leading-none tracking-tight">
                     {siteConfig.freshaRating.toFixed(1)}
                   </p>
-                  <p className="text-zinc-300 text-sm font-medium mt-1.5">
-                    on Fresha
-                  </p>
-                  <p className="text-zinc-400 text-xs mt-2.5">
-                    {siteConfig.freshaReviewCount}+ reviews
-                  </p>
+                  <p className="text-zinc-300 text-sm font-medium mt-1.5">on Fresha</p>
+                  <p className="text-zinc-400 text-xs mt-2.5">{siteConfig.freshaReviewCount}+ reviews</p>
                   <span className="inline-block mt-4 px-4 py-2 rounded-full bg-white text-zinc-900 text-[11px] font-semibold tracking-wide">
                     Book now
                   </span>
                 </div>
               </motion.a>
 
-              {/* Nail art showcase card */}
               <motion.div
                 animate={{ y: [0, 10, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 1 }}
@@ -148,13 +136,10 @@ export function Hero() {
                 )}
                 <div className="absolute inset-0 bg-linear-to-t from-black/35 via-transparent to-transparent" />
                 <div className="absolute bottom-4 left-4">
-                  <p className="text-white font-display text-base font-semibold drop-shadow">
-                    Nail Art
-                  </p>
+                  <p className="text-white font-display text-base font-semibold drop-shadow">Nail Art</p>
                 </div>
               </motion.div>
 
-              {/* Brand card */}
               <motion.div
                 animate={{ y: [0, -8, 0] }}
                 transition={{ duration: 5, repeat: Infinity, ease: 'easeInOut', delay: 0.5 }}

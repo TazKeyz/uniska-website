@@ -1,10 +1,9 @@
 import { motion } from 'framer-motion'
-import { Calendar, MapPin, MessageCircle } from 'lucide-react'
-import { priceList, siteConfig, getWhatsAppUrl } from '../config'
+import { priceList } from '../config'
 
 export function PriceList() {
   return (
-    <section id="prices" className="section-padding relative overflow-hidden">
+    <section id="prices" className="section-padding relative overflow-hidden scroll-mt-24">
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[36rem] h-[36rem] rounded-full bg-pastel-blue/30 blur-3xl -z-10" />
 
       <div className="page-container max-w-5xl">
@@ -87,36 +86,9 @@ export function PriceList() {
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
-          className="mt-10 text-center space-y-4"
+          className="mt-6 text-center"
         >
           <p className="text-sm text-ink-muted">{priceList.footerNote}</p>
-
-          <div className="flex flex-col sm:flex-row items-center justify-center gap-4 text-sm text-ink-muted">
-            <a
-              href={getWhatsAppUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 hover:text-ink transition-colors"
-            >
-              <MessageCircle size={16} className="text-[#25D366]" />
-              WhatsApp: {siteConfig.phoneDisplay}
-            </a>
-            <span className="hidden sm:inline w-1 h-1 rounded-full bg-ink-muted/30" />
-            <span className="inline-flex items-center gap-2">
-              <MapPin size={16} className="text-sky-400" />
-              {siteConfig.address}
-            </span>
-          </div>
-
-          <a
-            href={siteConfig.freshaUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold bg-linear-to-r from-sky-300 to-blue-300 text-ink hover:shadow-lg hover:shadow-sky-200/50 transition-all hover:-translate-y-0.5"
-          >
-            <Calendar size={16} />
-            Book on Fresha
-          </a>
         </motion.div>
       </div>
     </section>

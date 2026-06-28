@@ -64,7 +64,7 @@ export function Portfolio() {
       items.some((item) => item.category !== DEFAULT_PORTFOLIO_CATEGORY))
 
   return (
-    <section id="portfolio" className="section-padding relative overflow-hidden">
+    <section id="portfolio" className="section-padding relative overflow-hidden scroll-mt-24">
       <div className="absolute top-0 left-0 w-72 h-72 rounded-full bg-pastel-pink/50 blur-3xl -z-10" />
       <div className="absolute bottom-0 right-0 w-72 h-72 rounded-full bg-pastel-blue/50 blur-3xl -z-10" />
 

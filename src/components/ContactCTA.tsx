@@ -1,11 +1,11 @@
 import { motion } from 'framer-motion'
-import { MessageCircle, Calendar } from 'lucide-react'
+import { MessageCircle, Calendar, MapPin } from 'lucide-react'
 import { siteConfig, getWhatsAppUrl } from '../config'
 import { SocialLinks } from './SocialLinks'
 
 export function ContactCTA() {
   return (
-    <section id="contact" className="section-padding">
+    <section id="contact" className="section-padding scroll-mt-24">
       <div className="page-container">
         <motion.div
           initial={{ opacity: 0, scale: 0.95 }}
@@ -18,14 +18,26 @@ export function ContactCTA() {
 
           <div className="relative px-8 py-16 sm:px-16 sm:py-20 text-center">
             <h2 className="font-display text-4xl sm:text-5xl font-semibold mb-4">
-              Ready for gorgeous nails?
+              Get in touch
             </h2>
-            <p className="text-ink-muted max-w-lg mx-auto mb-2">
-              Book your appointment via WhatsApp or Fresha — we&apos;d love to see you at the studio.
+            <p className="text-ink-muted max-w-lg mx-auto mb-8">
+              Book an in-studio appointment on Fresha, or message on WhatsApp for press-on orders
+              and questions.
             </p>
-            <p className="text-sm text-ink-muted mb-10">{siteConfig.address}</p>
 
-            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
+              <motion.a
+                href={siteConfig.freshaUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.03 }}
+                whileTap={{ scale: 0.98 }}
+                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-linear-to-r from-sky-300 to-blue-300 text-ink shadow-lg hover:shadow-xl transition-shadow"
+              >
+                <Calendar size={20} />
+                Book on Fresha
+              </motion.a>
+
               <motion.a
                 href={getWhatsAppUrl()}
                 target="_blank"
@@ -35,21 +47,14 @@ export function ContactCTA() {
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-[#25D366] text-white shadow-lg shadow-green-200/50 hover:shadow-xl transition-shadow"
               >
                 <MessageCircle size={20} />
-                Contact on WhatsApp
-              </motion.a>
-
-              <motion.a
-                href={siteConfig.freshaUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
-                className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-white text-ink shadow-lg hover:shadow-xl transition-shadow"
-              >
-                <Calendar size={20} />
-                Book on Fresha
+                WhatsApp {siteConfig.phoneDisplay}
               </motion.a>
             </div>
+
+            <p className="inline-flex items-center justify-center gap-2 text-sm text-ink-muted mb-10">
+              <MapPin size={16} className="text-sky-400 shrink-0" />
+              {siteConfig.address}
+            </p>
 
             <div>
               <p className="text-sm font-medium text-ink-muted mb-4">Follow us</p>

@@ -5,11 +5,11 @@ import { siteConfig } from '../config'
 import { BrandName } from './BrandName'
 
 const navLinks = [
-  { label: 'Shop', href: '#shop' },
+  { label: 'Press-Ons', href: '#shop' },
   { label: 'Prices', href: '#prices' },
   { label: 'Portfolio', href: '#portfolio' },
-  { label: 'Reviews', href: '#reviews' },
   { label: 'About', href: '#about' },
+  { label: 'Reviews', href: '#reviews' },
   { label: 'Contact', href: '#contact' },
 ]
 

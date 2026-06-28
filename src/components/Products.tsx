@@ -14,7 +14,7 @@ const item = {
 
 export function Products() {
   return (
-    <section id="shop" className="section-padding relative">
+    <section id="shop" className="section-padding relative scroll-mt-24">
       <div className="absolute inset-0 -z-10 bg-linear-to-b from-cream via-pastel-pink/20 to-cream" />
 
       <div className="page-container">
@@ -25,14 +25,14 @@ export function Products() {
           className="text-center mb-14"
         >
           <p className="text-sm font-semibold uppercase tracking-widest text-pink-400 mb-3">
-            The Collection
+            Press-On Sets
           </p>
           <h2 className="font-display text-4xl sm:text-5xl font-semibold mb-4">
-            Press-On Sets
+            Order from home
           </h2>
           <p className="text-ink-muted max-w-xl mx-auto">
-            Each set includes 24 nails in multiple sizes, adhesive tabs, glue, a mini file,
-            and a cuticle stick — everything you need for a flawless application.
+            Custom press-on nail sets to complement our in-studio services — order via WhatsApp.
+            Each set includes multiple sizes and everything you need to apply at home.
           </p>
         </motion.div>
 
