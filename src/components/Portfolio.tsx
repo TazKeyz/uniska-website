@@ -84,7 +84,7 @@ export function Portfolio() {
           <p className="text-ink-muted max-w-xl mx-auto">
             {expanded
               ? 'Browse our full collection of nail art, gel sets, and press-ons.'
-              : 'A selection of our latest nail art — numbered designs 1–6.'}
+              : 'Check out my awesome sets!'}
           </p>
         </motion.div>
 
