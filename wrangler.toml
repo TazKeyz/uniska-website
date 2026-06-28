@@ -1,0 +1,5 @@
+# Static Cloudflare Pages site — prevents Wrangler from auto-configuring
+# the Cloudflare Vite plugin (which breaks this React SPA build).
+name = "uniska-website"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "dist"
