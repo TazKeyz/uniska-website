@@ -75,14 +75,12 @@ export function Hero() {
                 View Press-Ons
               </Link>
 
-              <motion.a
-                href="#prices"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
+              <Link
+                to="/prices"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold glass hover:bg-white/80 transition-colors"
               >
                 View Prices
-              </motion.a>
+              </Link>
             </div>
           </motion.div>
 

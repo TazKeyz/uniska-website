@@ -1,6 +1,5 @@
 import { Hero } from '../components/Hero'
 import { Products } from '../components/Products'
-import { PriceList } from '../components/PriceList'
 import { Portfolio } from '../components/Portfolio'
 import { Features } from '../components/Features'
 import { Reviews } from '../components/Reviews'
@@ -14,7 +13,6 @@ export function HomePage() {
     <main>
       <Hero />
       <Products />
-      <PriceList />
       <Portfolio />
       <Features />
       <Reviews />
