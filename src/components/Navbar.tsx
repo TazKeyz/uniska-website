@@ -83,6 +83,18 @@ export function Navbar() {
     navigateToHash(hash)
   }
 
+  const handleLogoClick = (event: React.MouseEvent<HTMLAnchorElement>) => {
+    event.preventDefault()
+    setMobileOpen(false)
+
+    if (!isHome) {
+      navigate('/')
+    }
+
+    window.history.replaceState(null, '', '/')
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const navLinkClass =
     'text-sm font-medium text-ink-muted hover:text-ink transition-colors'
 
@@ -98,7 +110,7 @@ export function Navbar() {
       }`}
     >
       <div className="page-container flex items-center justify-between">
-        <Link to="/" className="shrink-0">
+        <Link to="/" onClick={handleLogoClick} className="shrink-0" aria-label="Back to home">
           <BrandName variant="nav" />
         </Link>
 
