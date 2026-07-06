@@ -56,19 +56,22 @@ function OptionPill({
 }
 
 export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps) {
-  const [shape, setShape] = useState<PressOnShape>('Almond')
-  const [length, setLength] = useState<PressOnLength>('Medium')
+  const [shape, setShape] = useState<PressOnShape | null>(null)
+  const [length, setLength] = useState<PressOnLength | null>(null)
 
   useEffect(() => {
     if (product) {
-      setShape('Almond')
-      setLength('Medium')
+      setShape(null)
+      setLength(null)
     }
   }, [product?.id])
 
-  const orderMessage = product
-    ? `Hi! I'd like to order the ${product.name} press-on set (${product.priceDisplay}).\n\nShape: ${shape}\nLength: ${length}`
-    : ''
+  const canOrder = shape !== null && length !== null
+
+  const orderMessage =
+    product && canOrder
+      ? `Hi! I'd like to order the ${product.name} press-on set (${product.priceDisplay}).\n\nShape: ${shape}\nLength: ${length}`
+      : ''
 
   return (
     <AnimatePresence>
@@ -125,6 +128,7 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                   <p className="text-sm font-semibold text-ink mb-2.5 flex items-center gap-1.5">
                     <Sparkles size={15} className="text-pink-400" />
                     Pick your shape
+                    <span className="text-pink-400 text-xs font-bold">*</span>
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {PRESS_ON_SHAPES.map((option) => (
@@ -136,12 +140,16 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                       />
                     ))}
                   </div>
+                  {shape === null && (
+                    <p className="text-xs text-ink-muted mt-2">Please choose a shape to continue</p>
+                  )}
                 </div>
 
                 <div>
                   <p className="text-sm font-semibold text-ink mb-2.5 flex items-center gap-1.5">
                     <Heart size={14} className="text-rose-400 fill-rose-200" />
                     Choose your length
+                    <span className="text-pink-400 text-xs font-bold">*</span>
                   </p>
                   <div className="flex flex-wrap gap-2">
                     {PRESS_ON_LENGTHS.map((option) => (
@@ -153,6 +161,9 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                       />
                     ))}
                   </div>
+                  {length === null && (
+                    <p className="text-xs text-ink-muted mt-2">Please choose a length to continue</p>
+                  )}
                 </div>
 
                 <div className="rounded-2xl bg-linear-to-br from-pastel-pink/70 via-white/80 to-pastel-blue/70 p-4 border border-white/90">
@@ -178,15 +189,27 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                   </p>
                 </div>
 
-                <a
-                  href={getWhatsAppUrl(orderMessage)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors shadow-lg shadow-pink-200/40"
-                >
-                  <ShoppingBag size={16} />
-                  Order {shape} · {length} via WhatsApp
-                </a>
+                {canOrder ? (
+                  <a
+                    href={getWhatsAppUrl(orderMessage)}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors shadow-lg shadow-pink-200/40"
+                  >
+                    <ShoppingBag size={16} />
+                    Order {shape} · {length} via WhatsApp
+                  </a>
+                ) : (
+                  <button
+                    type="button"
+                    disabled
+                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-ink/30 text-white/90 cursor-not-allowed"
+                    aria-disabled
+                  >
+                    <ShoppingBag size={16} />
+                    Pick shape & length to order
+                  </button>
+                )}
               </div>
             </div>
           </motion.div>

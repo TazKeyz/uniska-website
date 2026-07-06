@@ -72,10 +72,10 @@ export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridPro
               <button
                 type="button"
                 onClick={() => setSelectedId(product.id)}
-                className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors mt-auto"
+                className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-linear-to-r from-pink-300 to-rose-300 text-ink hover:shadow-md hover:shadow-pink-200/50 transition-all mt-auto"
               >
                 <ShoppingBag size={16} />
-                View & order
+                Choose shape & length
               </button>
             </div>
           </motion.article>
