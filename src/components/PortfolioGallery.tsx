@@ -6,7 +6,6 @@ import {
   DEFAULT_PORTFOLIO_CATEGORY,
   PORTFOLIO_PREVIEW_COUNT,
   portfolioImageClass,
-  portfolioImageFrameClass,
   type PortfolioItem,
 } from '../types/portfolio'
 
@@ -95,7 +94,7 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               exit={isPreview ? undefined : { opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35, delay: isPreview ? index * 0.05 : index * 0.02 }}
               onClick={() => setSelectedId(item.id)}
-              className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left shadow-md shadow-pink-100/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300 ${portfolioImageFrameClass}`}
+              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left bg-white shadow-md shadow-pink-100/40 border border-pink-100/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300"
             >
               <img
                 src={item.src}
@@ -103,11 +102,11 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 loading="lazy"
                 className={portfolioImageClass}
               />
-              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 pointer-events-none">
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-200 font-semibold mb-0.5 block drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+              <div className="p-3 sm:p-4 border-t border-pink-100/50">
+                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-400 font-semibold mb-1 block">
                   {item.category}
                 </span>
-                <p className="text-white font-display text-base sm:text-lg font-semibold leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                <p className="text-ink font-display text-base sm:text-lg font-semibold leading-snug">
                   {item.title}
                 </p>
               </div>
@@ -133,7 +132,7 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="relative max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl shadow-pink-200/30 border border-pink-100/80"
+              className="relative w-full max-w-lg rounded-3xl overflow-hidden shadow-2xl shadow-pink-200/30"
               onClick={(e) => e.stopPropagation()}
             >
               <button
@@ -147,15 +146,19 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               <img
                 src={selected.src}
                 alt={selected.alt}
-                className="w-full max-h-[85vh] object-contain bg-white block"
+                className="w-full h-auto max-h-[85vh] block"
               />
-              <div className="p-5 sm:p-6">
-                <span className="text-xs uppercase tracking-widest text-pink-400 font-semibold">
+              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pointer-events-none">
+                <span className="text-xs uppercase tracking-widest text-pink-200 font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                   {selected.category}
                 </span>
-                <h3 className="font-display text-2xl font-semibold mt-1">{selected.title}</h3>
+                <h3 className="font-display text-2xl font-semibold mt-1 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                  {selected.title}
+                </h3>
                 {selected.description && (
-                  <p className="text-ink-muted mt-2 text-sm">{selected.description}</p>
+                  <p className="text-white/90 mt-2 text-sm drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                    {selected.description}
+                  </p>
                 )}
               </div>
             </motion.div>
