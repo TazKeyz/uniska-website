@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { Sparkles, Calendar, Star } from 'lucide-react'
 import { siteConfig } from '../config'
@@ -67,14 +68,12 @@ export function Hero() {
                 Book on Fresha
               </motion.a>
 
-              <motion.a
-                href="#shop"
-                whileHover={{ scale: 1.03 }}
-                whileTap={{ scale: 0.98 }}
+              <Link
+                to="/press-ons"
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-semibold bg-linear-to-r from-pink-300 to-rose-300 text-ink shadow-lg shadow-pink-200/50 hover:shadow-xl hover:shadow-pink-200/60 transition-shadow"
               >
                 View Press-Ons
-              </motion.a>
+              </Link>
 
               <motion.a
                 href="#prices"

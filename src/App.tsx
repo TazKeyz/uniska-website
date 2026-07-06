@@ -1,28 +1,17 @@
-import { Navbar } from './components/Navbar'
-import { Hero } from './components/Hero'
-import { Products } from './components/Products'
-import { PriceList } from './components/PriceList'
-import { Portfolio } from './components/Portfolio'
-import { Features } from './components/Features'
-import { Reviews } from './components/Reviews'
-import { ContactCTA } from './components/ContactCTA'
-import { Footer, FloatingWhatsApp } from './components/Footer'
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
+import { Layout } from './components/Layout'
+import { HomePage } from './pages/HomePage'
+import { PressOnsPage } from './pages/PressOnsPage'
 
 export default function App() {
   return (
-    <>
-      <Navbar />
-      <main>
-        <Hero />
-        <Products />
-        <PriceList />
-        <Portfolio />
-        <Features />
-        <Reviews />
-        <ContactCTA />
-      </main>
-      <Footer />
-      <FloatingWhatsApp />
-    </>
+    <BrowserRouter>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/press-ons" element={<PressOnsPage />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   )
 }
