@@ -30,8 +30,8 @@ export function Products() {
             Order from home
           </h2>
           <p className="text-ink-muted max-w-xl mx-auto">
-            Custom press-on nail sets to complement our in-studio services — order via WhatsApp.
-            Tap a set to view the full design.
+            Custom press-on nail sets to complement our in-studio services. Tap a set to choose
+            your shape & length, then order via WhatsApp.
           </p>
         </motion.div>
 

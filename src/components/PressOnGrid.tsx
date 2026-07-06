@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingBag, X } from 'lucide-react'
-import { getWhatsAppUrl } from '../config'
+import { motion } from 'framer-motion'
+import { ShoppingBag } from 'lucide-react'
+import { PressOnDetailModal } from './PressOnDetailModal'
 import type { PressOnProduct } from '../types/press-on'
 
 const container = {
@@ -21,7 +21,7 @@ type PressOnGridProps = {
 
 export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridProps) {
   const [selectedId, setSelectedId] = useState<string | null>(null)
-  const selected = products.find((product) => product.id === selectedId)
+  const selected = products.find((product) => product.id === selectedId) ?? null
 
   if (products.length === 0) {
     return <p className="text-center text-ink-muted">Press-on sets coming soon.</p>
@@ -69,75 +69,20 @@ export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridPro
                   {product.priceDisplay}
                 </span>
               </div>
-              <a
-                href={getWhatsAppUrl(
-                  `Hi! I'd like to order the ${product.name} press-on set (${product.priceDisplay}).`,
-                )}
-                target="_blank"
-                rel="noopener noreferrer"
+              <button
+                type="button"
+                onClick={() => setSelectedId(product.id)}
                 className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors mt-auto"
               >
                 <ShoppingBag size={16} />
-                Order via WhatsApp
-              </a>
+                View & order
+              </button>
             </div>
           </motion.article>
         ))}
       </motion.div>
 
-      <AnimatePresence>
-        {selected && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-ink/80 backdrop-blur-sm"
-            onClick={() => setSelectedId(null)}
-          >
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 20 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.9, y: 20 }}
-              transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="relative max-w-3xl w-full glass rounded-3xl overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                type="button"
-                onClick={() => setSelectedId(null)}
-                className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/80 text-ink hover:bg-white transition-colors"
-                aria-label="Close"
-              >
-                <X size={20} />
-              </button>
-              <img
-                src={selected.fullSrc}
-                alt={selected.alt}
-                className="w-full max-h-[70vh] object-contain bg-white/50"
-              />
-              <div className="p-5 sm:p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <h3 className="font-display text-2xl font-semibold">{selected.name}</h3>
-                  <span className="font-semibold text-pink-500 shrink-0 tabular-nums">
-                    {selected.priceDisplay}
-                  </span>
-                </div>
-                <a
-                  href={getWhatsAppUrl(
-                    `Hi! I'd like to order the ${selected.name} press-on set (${selected.priceDisplay}).`,
-                  )}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 mt-4 px-6 py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors"
-                >
-                  <ShoppingBag size={16} />
-                  Order via WhatsApp
-                </a>
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      <PressOnDetailModal product={selected} onClose={() => setSelectedId(null)} />
     </>
   )
 }

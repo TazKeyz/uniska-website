@@ -34,8 +34,8 @@ export function PressOnsPage() {
             All sets on sale
           </h1>
           <p className="text-ink-muted max-w-2xl">
-            Browse every press-on set currently available. Tap a design to view the full set, then
-            order via WhatsApp.
+            Browse every press-on set currently available. Tap a design to pick your shape and
+            length, then order via WhatsApp.
           </p>
           {products.length > 0 && (
             <p className="text-sm text-ink-muted mt-3">
