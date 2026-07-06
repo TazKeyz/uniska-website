@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ShoppingBag, X, Sparkles, Heart, ZoomIn } from 'lucide-react'
 import { getWhatsAppUrl } from '../config'
-import { pressOnImageFrameClass, type PressOnProduct } from '../types/press-on'
+import { pressOnImageClass, pressOnImageFrameClass, type PressOnProduct } from '../types/press-on'
 
 export const PRESS_ON_SHAPES = [
   'Almond',
@@ -107,13 +107,13 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                 <button
                   type="button"
                   onClick={() => setImageExpanded(true)}
-                  className={`relative block w-full ${pressOnImageFrameClass} overflow-hidden group cursor-zoom-in`}
+                  className={`relative block w-full ${pressOnImageFrameClass} group cursor-zoom-in`}
                   aria-label={`View full size image of ${product.name}`}
                 >
                   <img
                     src={product.fullSrc}
                     alt={product.alt}
-                    className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-300"
+                    className={pressOnImageClass}
                   />
                   <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 text-ink shadow-md border border-pink-100/80 opacity-90 group-hover:opacity-100 transition-opacity">
                     <ZoomIn size={14} className="text-pink-400" />

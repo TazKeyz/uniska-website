@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ShoppingBag } from 'lucide-react'
 import { PressOnDetailModal } from './PressOnDetailModal'
-import { pressOnImageFrameClass, type PressOnProduct } from '../types/press-on'
+import { pressOnImageClass, pressOnImageFrameClass, type PressOnProduct } from '../types/press-on'
 
 const container = {
   hidden: {},
@@ -47,19 +47,15 @@ export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridPro
             <button
               type="button"
               onClick={() => setSelectedId(product.id)}
-              className={`relative block w-full ${pressOnImageFrameClass} overflow-hidden cursor-pointer bg-pastel-pink/40`}
+              className={`relative block w-full ${pressOnImageFrameClass} cursor-pointer`}
               aria-label={`View ${product.name}`}
             >
               <img
                 src={product.fullSrc}
                 alt={product.alt}
-                className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
+                className={pressOnImageClass}
                 loading="lazy"
               />
-              <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <span className="absolute bottom-4 left-4 right-4 text-white font-display text-lg font-semibold drop-shadow opacity-0 group-hover:opacity-100 transition-opacity">
-                View set
-              </span>
             </button>
 
             <div className="p-5 flex flex-col flex-1">

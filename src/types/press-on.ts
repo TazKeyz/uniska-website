@@ -10,5 +10,8 @@ export type PressOnProduct = {
   sortOrder: number
 }
 
-/** Square frame ratio (1:1) matching full press-on artwork */
-export const pressOnImageFrameClass = 'aspect-square'
+/** White backing that matches press-on PNG artwork */
+export const pressOnImageFrameClass = 'bg-white'
+
+/** Show full 1:1 artwork without cropping */
+export const pressOnImageClass = 'w-full h-auto block'
