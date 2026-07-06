@@ -56,18 +56,18 @@ export function Products() {
                 key={product.id}
                 variants={item}
                 whileHover={{ y: -6 }}
-                className="group glass rounded-3xl overflow-hidden"
+                className="group glass rounded-3xl overflow-hidden flex flex-col h-full"
               >
                 <button
                   type="button"
                   onClick={() => setSelectedId(product.id)}
-                  className="relative block w-full h-56 overflow-hidden cursor-pointer"
+                  className="relative block w-full aspect-[4/3] overflow-hidden cursor-pointer bg-white/80"
                   aria-label={`View ${product.name}`}
                 >
                   <img
                     src={product.coverSrc}
                     alt={product.alt}
-                    className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                    className="absolute inset-0 w-full h-full object-contain p-3 group-hover:scale-[1.03] transition-transform duration-500"
                     loading="lazy"
                   />
                   <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -76,7 +76,7 @@ export function Products() {
                   </span>
                 </button>
 
-                <div className="p-5">
+                <div className="p-5 flex flex-col flex-1">
                   <div className="flex items-start justify-between gap-3 mb-4">
                     <h3 className="font-display text-xl font-semibold">{product.name}</h3>
                     <span className="font-semibold text-pink-500 shrink-0 tabular-nums">
@@ -89,7 +89,7 @@ export function Products() {
                     )}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors"
+                    className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors mt-auto"
                   >
                     <ShoppingBag size={16} />
                     Order via WhatsApp
