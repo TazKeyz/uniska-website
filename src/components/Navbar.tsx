@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { siteConfig } from '../config'
@@ -13,15 +13,50 @@ const navLinks = [
   { label: 'Contact', href: '#contact' },
 ]
 
+function scrollToSection(href: string) {
+  const id = href.replace('#', '')
+  const target = document.getElementById(id)
+  if (!target) return
+
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  window.history.replaceState(null, '', href)
+}
+
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false)
   const [mobileOpen, setMobileOpen] = useState(false)
+  const pendingScroll = useRef<string | null>(null)
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40)
     window.addEventListener('scroll', onScroll)
     return () => window.removeEventListener('scroll', onScroll)
   }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? 'hidden' : ''
+    return () => {
+      document.body.style.overflow = ''
+    }
+  }, [mobileOpen])
+
+  const handleMobileNavClick = (href: string) => (event: React.MouseEvent<HTMLAnchorElement>) => {
+    if (href.startsWith('#')) {
+      event.preventDefault()
+      pendingScroll.current = href
+      setMobileOpen(false)
+      return
+    }
+
+    setMobileOpen(false)
+  }
+
+  const handleMenuExitComplete = () => {
+    if (!pendingScroll.current) return
+    const href = pendingScroll.current
+    pendingScroll.current = null
+    scrollToSection(href)
+  }
 
   return (
     <motion.header
@@ -69,20 +104,20 @@ export function Navbar() {
         </button>
       </div>
 
-      <AnimatePresence>
+      <AnimatePresence onExitComplete={handleMenuExitComplete}>
         {mobileOpen && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
-            className="md:hidden glass border-t border-white/50 mt-3"
+            className="md:hidden glass border-t border-white/50 mt-3 overflow-hidden"
           >
             <nav className="flex flex-col px-5 py-4 gap-1">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileOpen(false)}
+                  onClick={handleMobileNavClick(link.href)}
                   className="py-3 text-ink-muted hover:text-ink font-medium transition-colors"
                 >
                   {link.label}
@@ -92,6 +127,7 @@ export function Navbar() {
                 href={siteConfig.freshaUrl}
                 target="_blank"
                 rel="noopener noreferrer"
+                onClick={() => setMobileOpen(false)}
                 className="mt-2 py-3 text-center rounded-full bg-linear-to-r from-sky-300 to-blue-300 font-semibold"
               >
                 Book on Fresha
