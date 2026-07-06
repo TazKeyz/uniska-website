@@ -51,7 +51,7 @@ export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridPro
               aria-label={`View ${product.name}`}
             >
               <img
-                src={product.coverSrc}
+                src={product.fullSrc}
                 alt={product.alt}
                 className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"

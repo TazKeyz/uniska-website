@@ -5,8 +5,7 @@ import XLSX from 'xlsx'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
-const shortDir = path.join(root, 'public', 'press-on', 'Short')
-const fullDir = path.join(root, 'public', 'press-on', 'Full')
+const imageDir = path.join(root, 'public', 'press-on', 'Full')
 const dataDir = path.join(root, 'data')
 const spreadsheetPath = path.join(dataDir, 'press-ons.xlsx')
 const csvPath = path.join(dataDir, 'press-ons.csv')
@@ -99,7 +98,7 @@ function writeSpreadsheet(rows) {
   XLSX.writeFile(workbook, spreadsheetPath)
 }
 
-function ensureSpreadsheet(shortFiles) {
+function ensureSpreadsheet(imageFiles) {
   fs.mkdirSync(dataDir, { recursive: true })
 
   const existingRows = readSpreadsheetRows() ?? readCsvRows()
@@ -107,7 +106,7 @@ function ensureSpreadsheet(shortFiles) {
     existingRows.filter((row) => row.file).map((row) => [row.file, row]),
   )
 
-  const mergedRows = shortFiles.map((file) => {
+  const mergedRows = imageFiles.map((file) => {
     const existing = rowByFile.get(file)
     return {
       file,
@@ -132,7 +131,7 @@ function ensureSpreadsheet(shortFiles) {
       a.file.localeCompare(b.file, undefined, { numeric: true }),
   )
 
-  const hasNewImages = shortFiles.some((file) => !rowByFile.has(file))
+  const hasNewImages = imageFiles.some((file) => !rowByFile.has(file))
 
   if (!fs.existsSync(spreadsheetPath)) {
     writeSpreadsheet(mergedRows)
@@ -146,18 +145,17 @@ function ensureSpreadsheet(shortFiles) {
 }
 
 function buildPressOns() {
-  fs.mkdirSync(shortDir, { recursive: true })
-  fs.mkdirSync(fullDir, { recursive: true })
+  fs.mkdirSync(imageDir, { recursive: true })
   fs.mkdirSync(path.dirname(outputFile), { recursive: true })
 
-  if (!fs.existsSync(shortDir)) {
+  if (!fs.existsSync(imageDir)) {
     fs.writeFileSync(outputFile, '[]\n')
-    console.log('Press-ons: 0 product(s) — add images to public/press-on/Short and Full')
+    console.log('Press-ons: 0 product(s) — add images to public/press-on/Full')
     return
   }
 
-  const shortFiles = fs
-    .readdirSync(shortDir)
+  const imageFiles = fs
+    .readdirSync(imageDir)
     .filter((name) => !skipFiles.has(name) && !name.startsWith('.') && imageExt.test(name))
     .sort(
       (a, b) =>
@@ -165,21 +163,19 @@ function buildPressOns() {
         a.localeCompare(b, undefined, { numeric: true }),
     )
 
-  const pricingByFile = ensureSpreadsheet(shortFiles)
+  if (imageFiles.length === 0) {
+    fs.writeFileSync(outputFile, '[]\n')
+    console.log('Press-ons: 0 product(s) — add images to public/press-on/Full')
+    return
+  }
 
-  const products = shortFiles.map((file, index) => {
+  const pricingByFile = ensureSpreadsheet(imageFiles)
+
+  const products = imageFiles.map((file, index) => {
     const pricing = pricingByFile.get(file)
     const name = pricing?.name || pressOnName(file) || `Set ${index + 1}`
     const price = parsePrice(pricing?.price)
-
-    const fullFile = fs.existsSync(path.join(fullDir, file))
-      ? file
-      : fs.readdirSync(fullDir).find((candidate) => pressOnName(candidate) === name)
-
-    const coverSrc = publicUrl(path.relative(path.join(root, 'public'), path.join(shortDir, file)))
-    const fullSrc = fullFile
-      ? publicUrl(path.relative(path.join(root, 'public'), path.join(fullDir, fullFile)))
-      : coverSrc
+    const imageSrc = publicUrl(path.relative(path.join(root, 'public'), path.join(imageDir, file)))
 
     return {
       id: String(index + 1),
@@ -187,8 +183,8 @@ function buildPressOns() {
       file,
       price,
       priceDisplay: formatZar(price),
-      coverSrc,
-      fullSrc,
+      coverSrc: imageSrc,
+      fullSrc: imageSrc,
       alt: `Uniska Nails Studio — ${name} press-on set`,
       sortOrder: numericSortKey(file),
     }
@@ -196,7 +192,7 @@ function buildPressOns() {
 
   fs.writeFileSync(outputFile, `${JSON.stringify(products, null, 2)}\n`)
   console.log(
-    `Press-ons: ${products.length} product(s) from images + ${path.relative(root, spreadsheetPath)}`,
+    `Press-ons: ${products.length} product(s) from public/press-on/Full + ${path.relative(root, spreadsheetPath)}`,
   )
 }
 
