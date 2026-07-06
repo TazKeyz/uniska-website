@@ -91,37 +91,31 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
               animate={{ opacity: 1, y: 0, scale: 1 }}
               exit={{ opacity: 0, y: 24, scale: 0.98 }}
               transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-              className="relative w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] border border-pink-100/90 bg-cream shadow-2xl shadow-pink-300/40"
+              className="relative w-full sm:max-w-lg overflow-hidden rounded-t-[2rem] sm:rounded-[2rem] border border-pink-100/90 bg-cream shadow-2xl shadow-pink-300/40"
               onClick={(e) => e.stopPropagation()}
             >
-              <div className="sticky top-0 z-50 flex justify-end p-3 sm:p-4 bg-linear-to-b from-cream from-70% to-transparent pointer-events-none">
+              <div className="relative">
                 <button
                   type="button"
                   onClick={onClose}
-                  className="pointer-events-auto p-2.5 rounded-full bg-white text-ink hover:bg-pastel-pink/50 transition-colors shadow-lg shadow-pink-200/50 border border-pink-100/80"
+                  className="absolute top-3 right-3 z-30 p-2.5 rounded-full bg-white/95 text-ink hover:bg-white transition-colors shadow-lg shadow-pink-200/50 border border-pink-100/80"
                   aria-label="Close"
                 >
                   <X size={20} />
                 </button>
-              </div>
 
-              <div className="-mt-14 sm:-mt-16 relative">
-                <div className="pointer-events-none absolute -top-16 -right-10 w-40 h-40 rounded-full bg-pastel-pink/70 blur-3xl" />
-                <div className="pointer-events-none absolute top-1/3 -left-12 w-36 h-36 rounded-full bg-pastel-blue/60 blur-3xl" />
-
-                <div className="relative bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/70 px-4 pt-2 pb-4 border-b border-pink-100/70">
                 <button
                   type="button"
                   onClick={() => setImageExpanded(true)}
-                  className={`relative z-10 block w-full ${pressOnImageFrameClass} overflow-hidden rounded-2xl group cursor-zoom-in`}
+                  className={`relative block w-full ${pressOnImageFrameClass} overflow-hidden group cursor-zoom-in`}
                   aria-label={`View full size image of ${product.name}`}
                 >
                   <img
                     src={product.fullSrc}
                     alt={product.alt}
-                    className="absolute inset-0 w-full h-full object-cover object-center drop-shadow-md group-hover:scale-[1.02] transition-transform duration-300"
+                    className="w-full h-full object-cover object-center group-hover:scale-[1.02] transition-transform duration-300"
                   />
-                  <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 text-ink shadow-md border border-pink-100/80 opacity-90 group-hover:opacity-100 transition-opacity">
+                  <span className="absolute bottom-3 right-3 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 text-ink shadow-md border border-pink-100/80 opacity-90 group-hover:opacity-100 transition-opacity">
                     <ZoomIn size={14} className="text-pink-400" />
                     Tap to enlarge
                   </span>
@@ -230,7 +224,6 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                   </button>
                 )}
               </div>
-            </div>
             </motion.div>
           </div>
 

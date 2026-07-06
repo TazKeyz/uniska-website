@@ -98,6 +98,41 @@ function writeSpreadsheet(rows) {
   XLSX.writeFile(workbook, spreadsheetPath)
 }
 
+function pickImageFiles(dir) {
+  const files = fs
+    .readdirSync(dir)
+    .filter((name) => !skipFiles.has(name) && !name.startsWith('.') && imageExt.test(name))
+
+  const byProduct = new Map()
+
+  for (const file of files) {
+    const key = `${numericSortKey(file)}:${pressOnName(file)}`
+    const existing = byProduct.get(key)
+
+    if (!existing) {
+      byProduct.set(key, file)
+      continue
+    }
+
+    if (file.toLowerCase().endsWith('.png')) {
+      byProduct.set(key, file)
+    }
+  }
+
+  return [...byProduct.values()].sort(
+    (a, b) =>
+      numericSortKey(a) - numericSortKey(b) ||
+      a.localeCompare(b, undefined, { numeric: true }),
+  )
+}
+
+function findPricingRow(rowByFile, file, existingRows) {
+  if (rowByFile.has(file)) return rowByFile.get(file)
+
+  const name = pressOnName(file)
+  return existingRows.find((row) => pressOnName(row.file) === name)
+}
+
 function ensureSpreadsheet(imageFiles) {
   fs.mkdirSync(dataDir, { recursive: true })
 
@@ -107,7 +142,7 @@ function ensureSpreadsheet(imageFiles) {
   )
 
   const mergedRows = imageFiles.map((file) => {
-    const existing = rowByFile.get(file)
+    const existing = findPricingRow(rowByFile, file, existingRows)
     return {
       file,
       name: existing?.name || pressOnName(file),
@@ -115,28 +150,26 @@ function ensureSpreadsheet(imageFiles) {
     }
   })
 
-  for (const row of existingRows) {
-    if (row.file && !mergedRows.some((item) => item.file === row.file)) {
-      mergedRows.push({
-        file: row.file,
-        name: row.name || pressOnName(row.file),
-        price: parsePrice(row.price),
-      })
-    }
-  }
-
   mergedRows.sort(
     (a, b) =>
       numericSortKey(a.file) - numericSortKey(b.file) ||
       a.file.localeCompare(b.file, undefined, { numeric: true }),
   )
 
-  const hasNewImages = imageFiles.some((file) => !rowByFile.has(file))
+  const hasNewImages = imageFiles.some((file) => !findPricingRow(rowByFile, file, existingRows))
+  const filesChanged =
+    existingRows.length > 0 &&
+    mergedRows.some((row) => {
+      const prev = existingRows.find(
+        (entry) => entry.name === row.name || pressOnName(entry.file) === row.name,
+      )
+      return prev && prev.file !== row.file
+    })
 
   if (!fs.existsSync(spreadsheetPath)) {
     writeSpreadsheet(mergedRows)
     console.log(`Created ${path.relative(root, spreadsheetPath)} — edit prices here, then commit and push.`)
-  } else if (hasNewImages) {
+  } else if (hasNewImages || filesChanged) {
     writeSpreadsheet(mergedRows)
     console.log(`Updated ${path.relative(root, spreadsheetPath)} with new press-on image(s).`)
   }
@@ -154,14 +187,7 @@ function buildPressOns() {
     return
   }
 
-  const imageFiles = fs
-    .readdirSync(imageDir)
-    .filter((name) => !skipFiles.has(name) && !name.startsWith('.') && imageExt.test(name))
-    .sort(
-      (a, b) =>
-        numericSortKey(a) - numericSortKey(b) ||
-        a.localeCompare(b, undefined, { numeric: true }),
-    )
+  const imageFiles = pickImageFiles(imageDir)
 
   if (imageFiles.length === 0) {
     fs.writeFileSync(outputFile, '[]\n')

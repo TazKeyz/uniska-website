@@ -10,5 +10,5 @@ export type PressOnProduct = {
   sortOrder: number
 }
 
-/** Portrait frame ratio (width × height ≈ 926×1080) matching full press-on artwork */
-export const pressOnImageFrameClass = 'aspect-[926/1080]'
+/** Square frame ratio (1:1) matching full press-on artwork */
+export const pressOnImageFrameClass = 'aspect-square'
