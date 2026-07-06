@@ -132,11 +132,14 @@ function ensureSpreadsheet(shortFiles) {
       a.file.localeCompare(b.file, undefined, { numeric: true }),
   )
 
+  const hasNewImages = shortFiles.some((file) => !rowByFile.has(file))
+
   if (!fs.existsSync(spreadsheetPath)) {
     writeSpreadsheet(mergedRows)
-    console.log(`Created ${path.relative(root, spreadsheetPath)} — edit prices here, then rebuild/deploy.`)
-  } else {
+    console.log(`Created ${path.relative(root, spreadsheetPath)} — edit prices here, then commit and push.`)
+  } else if (hasNewImages) {
     writeSpreadsheet(mergedRows)
+    console.log(`Updated ${path.relative(root, spreadsheetPath)} with new press-on image(s).`)
   }
 
   return new Map(mergedRows.map((row) => [row.file, row]))
