@@ -47,13 +47,13 @@ export function PressOnGrid({ products, animateOnScroll = true }: PressOnGridPro
             <button
               type="button"
               onClick={() => setSelectedId(product.id)}
-              className="relative block w-full aspect-[4/3] overflow-hidden cursor-pointer bg-white/80"
+              className="relative block w-full aspect-[4/3] overflow-hidden cursor-pointer bg-pastel-pink/40"
               aria-label={`View ${product.name}`}
             >
               <img
                 src={product.coverSrc}
                 alt={product.alt}
-                className="absolute inset-0 w-full h-full object-contain p-3 group-hover:scale-[1.03] transition-transform duration-500"
+                className="absolute inset-0 w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-500"
                 loading="lazy"
               />
               <div className="absolute inset-0 bg-linear-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
