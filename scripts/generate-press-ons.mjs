@@ -1,15 +1,20 @@
 import fs from 'fs'
 import path from 'path'
 import { fileURLToPath } from 'url'
+import XLSX from 'xlsx'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const root = path.join(__dirname, '..')
 const shortDir = path.join(root, 'public', 'press-on', 'Short')
 const fullDir = path.join(root, 'public', 'press-on', 'Full')
+const dataDir = path.join(root, 'data')
+const spreadsheetPath = path.join(dataDir, 'press-ons.xlsx')
+const csvPath = path.join(dataDir, 'press-ons.csv')
 const outputFile = path.join(root, 'src', 'data', 'press-ons.json')
 
 const imageExt = /\.(jpe?g|png|webp|gif|avif)$/i
 const skipFiles = new Set(['.gitkeep', 'desktop.ini', 'thumbs.db'])
+const DEFAULT_PRICE = 210
 
 function pressOnName(filename) {
   return filename
@@ -28,6 +33,115 @@ function publicUrl(relativePath) {
   return `/${relativePath.split(path.sep).join('/')}`
 }
 
+function formatZar(amount) {
+  return `R${Number(amount).toFixed(2)}`
+}
+
+function parsePrice(value) {
+  if (value === undefined || value === null || value === '') return DEFAULT_PRICE
+  const cleaned = String(value).replace(/[rR\s,]/g, '')
+  const parsed = Number.parseFloat(cleaned)
+  return Number.isFinite(parsed) ? parsed : DEFAULT_PRICE
+}
+
+function readCsvRows() {
+  if (!fs.existsSync(csvPath)) return []
+
+  const lines = fs.readFileSync(csvPath, 'utf8').split(/\r?\n/).filter(Boolean)
+  if (lines.length < 2) return []
+
+  const headers = lines[0].split(',').map((header) => header.trim().toLowerCase())
+  const fileIndex = headers.indexOf('file')
+  const nameIndex = headers.indexOf('name')
+  const priceIndex = headers.indexOf('price')
+
+  return lines.slice(1).map((line) => {
+    const cells = line.split(',').map((cell) => cell.trim())
+    return {
+      file: fileIndex >= 0 ? cells[fileIndex] : '',
+      name: nameIndex >= 0 ? cells[nameIndex] : '',
+      price: priceIndex >= 0 ? cells[priceIndex] : DEFAULT_PRICE,
+    }
+  })
+}
+
+function readSpreadsheetRows() {
+  if (!fs.existsSync(spreadsheetPath)) return null
+
+  const workbook = XLSX.readFile(spreadsheetPath)
+  const sheet = workbook.Sheets[workbook.SheetNames[0]]
+  const rows = XLSX.utils.sheet_to_json(sheet, { defval: '' })
+
+  return rows.map((row) => {
+    const file = String(row.file ?? row.File ?? '').trim()
+    const name = String(row.name ?? row.Name ?? '').trim()
+    const price = row.price ?? row.Price ?? row['Price (ZAR)'] ?? DEFAULT_PRICE
+
+    return { file, name, price }
+  })
+}
+
+function writeSpreadsheet(rows) {
+  const worksheet = XLSX.utils.json_to_sheet(
+    rows.map((row) => ({
+      file: row.file,
+      name: row.name,
+      price: row.price,
+    })),
+    { header: ['file', 'name', 'price'] },
+  )
+
+  worksheet['!cols'] = [{ wch: 28 }, { wch: 22 }, { wch: 12 }]
+
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, 'Press-Ons')
+  fs.mkdirSync(dataDir, { recursive: true })
+  XLSX.writeFile(workbook, spreadsheetPath)
+}
+
+function ensureSpreadsheet(shortFiles) {
+  fs.mkdirSync(dataDir, { recursive: true })
+
+  const existingRows = readSpreadsheetRows() ?? readCsvRows()
+  const rowByFile = new Map(
+    existingRows.filter((row) => row.file).map((row) => [row.file, row]),
+  )
+
+  const mergedRows = shortFiles.map((file) => {
+    const existing = rowByFile.get(file)
+    return {
+      file,
+      name: existing?.name || pressOnName(file),
+      price: parsePrice(existing?.price),
+    }
+  })
+
+  for (const row of existingRows) {
+    if (row.file && !mergedRows.some((item) => item.file === row.file)) {
+      mergedRows.push({
+        file: row.file,
+        name: row.name || pressOnName(row.file),
+        price: parsePrice(row.price),
+      })
+    }
+  }
+
+  mergedRows.sort(
+    (a, b) =>
+      numericSortKey(a.file) - numericSortKey(b.file) ||
+      a.file.localeCompare(b.file, undefined, { numeric: true }),
+  )
+
+  if (!fs.existsSync(spreadsheetPath)) {
+    writeSpreadsheet(mergedRows)
+    console.log(`Created ${path.relative(root, spreadsheetPath)} — edit prices here, then rebuild/deploy.`)
+  } else {
+    writeSpreadsheet(mergedRows)
+  }
+
+  return new Map(mergedRows.map((row) => [row.file, row]))
+}
+
 function buildPressOns() {
   fs.mkdirSync(shortDir, { recursive: true })
   fs.mkdirSync(fullDir, { recursive: true })
@@ -42,10 +156,19 @@ function buildPressOns() {
   const shortFiles = fs
     .readdirSync(shortDir)
     .filter((name) => !skipFiles.has(name) && !name.startsWith('.') && imageExt.test(name))
-    .sort((a, b) => numericSortKey(a) - numericSortKey(b) || a.localeCompare(b, undefined, { numeric: true }))
+    .sort(
+      (a, b) =>
+        numericSortKey(a) - numericSortKey(b) ||
+        a.localeCompare(b, undefined, { numeric: true }),
+    )
+
+  const pricingByFile = ensureSpreadsheet(shortFiles)
 
   const products = shortFiles.map((file, index) => {
-    const name = pressOnName(file) || `Set ${index + 1}`
+    const pricing = pricingByFile.get(file)
+    const name = pricing?.name || pressOnName(file) || `Set ${index + 1}`
+    const price = parsePrice(pricing?.price)
+
     const fullFile = fs.existsSync(path.join(fullDir, file))
       ? file
       : fs.readdirSync(fullDir).find((candidate) => pressOnName(candidate) === name)
@@ -59,6 +182,8 @@ function buildPressOns() {
       id: String(index + 1),
       name,
       file,
+      price,
+      priceDisplay: formatZar(price),
       coverSrc,
       fullSrc,
       alt: `Uniska Nails Studio — ${name} press-on set`,
@@ -67,7 +192,9 @@ function buildPressOns() {
   })
 
   fs.writeFileSync(outputFile, `${JSON.stringify(products, null, 2)}\n`)
-  console.log(`Press-ons: ${products.length} product(s) found in public/press-on/`)
+  console.log(
+    `Press-ons: ${products.length} product(s) from images + ${path.relative(root, spreadsheetPath)}`,
+  )
 }
 
 buildPressOns()

@@ -77,9 +77,16 @@ export function Products() {
                 </button>
 
                 <div className="p-5">
-                  <h3 className="font-display text-xl font-semibold mb-4">{product.name}</h3>
+                  <div className="flex items-start justify-between gap-3 mb-4">
+                    <h3 className="font-display text-xl font-semibold">{product.name}</h3>
+                    <span className="font-semibold text-pink-500 shrink-0 tabular-nums">
+                      {product.priceDisplay}
+                    </span>
+                  </div>
                   <a
-                    href={getWhatsAppUrl(`Hi! I'd like to order the ${product.name} press-on set.`)}
+                    href={getWhatsAppUrl(
+                      `Hi! I'd like to order the ${product.name} press-on set (${product.priceDisplay}).`,
+                    )}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-2 w-full justify-center py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors"
@@ -125,9 +132,16 @@ export function Products() {
                 className="w-full max-h-[70vh] object-contain bg-white/50"
               />
               <div className="p-5 sm:p-6">
-                <h3 className="font-display text-2xl font-semibold">{selected.name}</h3>
+                <div className="flex items-start justify-between gap-3">
+                  <h3 className="font-display text-2xl font-semibold">{selected.name}</h3>
+                  <span className="font-semibold text-pink-500 shrink-0 tabular-nums">
+                    {selected.priceDisplay}
+                  </span>
+                </div>
                 <a
-                  href={getWhatsAppUrl(`Hi! I'd like to order the ${selected.name} press-on set.`)}
+                  href={getWhatsAppUrl(
+                    `Hi! I'd like to order the ${selected.name} press-on set (${selected.priceDisplay}).`,
+                  )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex items-center gap-2 mt-4 px-6 py-3 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors"
