@@ -47,7 +47,7 @@ function OptionPill({
       className={`px-3.5 py-2 rounded-full text-sm font-semibold transition-all duration-200 ${
         selected
           ? 'bg-linear-to-r from-pink-300 to-rose-300 text-ink shadow-md shadow-pink-200/60 scale-[1.02]'
-          : 'bg-white/70 text-ink-muted hover:bg-white hover:text-ink border border-pink-100/80'
+          : 'bg-white text-ink-muted hover:bg-pastel-pink/30 hover:text-ink border border-pink-200/70 shadow-sm'
       }`}
     >
       {label}
@@ -80,7 +80,7 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-ink/80 backdrop-blur-sm"
+          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-rose-950/30 backdrop-blur-md"
           onClick={onClose}
         >
           <motion.div
@@ -88,43 +88,47 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className="relative w-full sm:max-w-lg max-h-[94vh] glass rounded-t-[2rem] sm:rounded-[2rem] overflow-hidden flex flex-col shadow-2xl shadow-pink-200/30"
+            className="relative w-full sm:max-w-lg max-h-[94vh] rounded-t-[2rem] sm:rounded-[2rem] overflow-hidden flex flex-col shadow-2xl shadow-pink-300/40 border border-pink-100/90 bg-cream"
             onClick={(e) => e.stopPropagation()}
           >
+            <div className="pointer-events-none absolute -top-16 -right-10 w-40 h-40 rounded-full bg-pastel-pink/70 blur-3xl" />
+            <div className="pointer-events-none absolute top-1/3 -left-12 w-36 h-36 rounded-full bg-pastel-blue/60 blur-3xl" />
+            <div className="pointer-events-none absolute bottom-24 right-0 w-28 h-28 rounded-full bg-pastel-pink-deep/40 blur-2xl" />
+
             <button
               type="button"
               onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white/90 text-ink hover:bg-white transition-colors shadow-sm"
+              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white text-ink hover:bg-pastel-pink/50 transition-colors shadow-md shadow-pink-100/60 border border-pink-100/80"
               aria-label="Close"
             >
               <X size={20} />
             </button>
 
-            <div className="overflow-y-auto">
-              <div className="relative bg-linear-to-b from-pastel-pink/40 to-white/80 px-4 pt-5 pb-3">
+            <div className="relative overflow-y-auto">
+              <div className="relative bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/70 px-4 pt-6 pb-4 border-b border-pink-100/70">
                 <img
                   src={product.fullSrc}
                   alt={product.alt}
-                  className="w-full max-h-[38vh] object-contain mx-auto drop-shadow-sm"
+                  className="relative z-10 w-full max-h-[38vh] object-contain mx-auto drop-shadow-md"
                 />
               </div>
 
-              <div className="px-5 sm:px-6 pb-6 pt-4 space-y-5">
+              <div className="relative px-5 sm:px-6 pb-6 pt-5 space-y-5 bg-linear-to-b from-cream via-white to-pastel-pink/25">
                 <div className="flex items-start justify-between gap-3">
                   <div>
                     <p className="text-xs font-semibold uppercase tracking-widest text-pink-400 mb-1">
-                      Your pick
+                      Your pick ✨
                     </p>
-                    <h3 className="font-display text-2xl font-semibold leading-tight">
+                    <h3 className="font-display text-2xl font-semibold leading-tight text-ink">
                       {product.name}
                     </h3>
                   </div>
-                  <span className="font-semibold text-pink-500 shrink-0 tabular-nums text-lg">
+                  <span className="font-semibold text-pink-500 shrink-0 tabular-nums text-lg bg-white/80 px-3 py-1 rounded-full border border-pink-100 shadow-sm">
                     {product.priceDisplay}
                   </span>
                 </div>
 
-                <div>
+                <div className="rounded-2xl bg-white/75 border border-pink-100/80 p-4 shadow-sm shadow-pink-100/40">
                   <p className="text-sm font-semibold text-ink mb-2.5 flex items-center gap-1.5">
                     <Sparkles size={15} className="text-pink-400" />
                     Pick your shape
@@ -141,11 +145,11 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                     ))}
                   </div>
                   {shape === null && (
-                    <p className="text-xs text-ink-muted mt-2">Please choose a shape to continue</p>
+                    <p className="text-xs text-pink-400/80 mt-2">Please choose a shape to continue 💅</p>
                   )}
                 </div>
 
-                <div>
+                <div className="rounded-2xl bg-white/75 border border-sky-100/80 p-4 shadow-sm shadow-sky-100/30">
                   <p className="text-sm font-semibold text-ink mb-2.5 flex items-center gap-1.5">
                     <Heart size={14} className="text-rose-400 fill-rose-200" />
                     Choose your length
@@ -162,11 +166,11 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                     ))}
                   </div>
                   {length === null && (
-                    <p className="text-xs text-ink-muted mt-2">Please choose a length to continue</p>
+                    <p className="text-xs text-pink-400/80 mt-2">Please choose a length to continue 💖</p>
                   )}
                 </div>
 
-                <div className="rounded-2xl bg-linear-to-br from-pastel-pink/70 via-white/80 to-pastel-blue/70 p-4 border border-white/90">
+                <div className="rounded-2xl bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/80 p-4 border border-white shadow-sm shadow-pink-100/50">
                   <p className="font-display text-base font-semibold text-ink mb-3">
                     Every set comes with…
                   </p>
@@ -194,7 +198,7 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                     href={getWhatsAppUrl(orderMessage)}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-ink text-white hover:bg-ink/90 transition-colors shadow-lg shadow-pink-200/40"
+                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-linear-to-r from-pink-300 via-rose-300 to-pink-400 text-ink hover:shadow-lg hover:shadow-pink-200/60 transition-all hover:-translate-y-0.5"
                   >
                     <ShoppingBag size={16} />
                     Order {shape} · {length} via WhatsApp
@@ -203,7 +207,7 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                   <button
                     type="button"
                     disabled
-                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-ink/30 text-white/90 cursor-not-allowed"
+                    className="inline-flex items-center justify-center gap-2 w-full py-3.5 rounded-full text-sm font-semibold bg-pastel-pink/50 text-ink-muted border border-pink-200/60 cursor-not-allowed"
                     aria-disabled
                   >
                     <ShoppingBag size={16} />
