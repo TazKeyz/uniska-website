@@ -6,6 +6,7 @@ import {
   DEFAULT_PORTFOLIO_CATEGORY,
   PORTFOLIO_PREVIEW_COUNT,
   portfolioImageClass,
+  portfolioImageFrameClass,
   type PortfolioItem,
 } from '../types/portfolio'
 
@@ -94,7 +95,7 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               exit={isPreview ? undefined : { opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35, delay: isPreview ? index * 0.05 : index * 0.02 }}
               onClick={() => setSelectedId(item.id)}
-              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left bg-white shadow-md shadow-pink-100/40 border border-pink-100/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300"
+              className={`group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left shadow-md shadow-pink-100/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300 ${portfolioImageFrameClass}`}
             >
               <img
                 src={item.src}
@@ -102,11 +103,11 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 loading="lazy"
                 className={portfolioImageClass}
               />
-              <div className="p-3 sm:p-4 border-t border-pink-100/50">
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-400 font-semibold mb-1 block">
+              <div className="absolute inset-x-0 bottom-0 p-3 sm:p-4 pointer-events-none">
+                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-200 font-semibold mb-0.5 block drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                   {item.category}
                 </span>
-                <p className="text-ink font-display text-base sm:text-lg font-semibold leading-snug">
+                <p className="text-white font-display text-base sm:text-lg font-semibold leading-snug drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                   {item.title}
                 </p>
               </div>
