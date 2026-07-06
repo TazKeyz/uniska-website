@@ -19,7 +19,7 @@ export function PriceList({ variant = 'page' }: PriceListProps) {
         <p className="text-sm font-semibold uppercase tracking-widest text-sky-400 mb-3">
           In-studio services
         </p>
-        <h1 className="font-display text-4xl sm:text-5xl font-semibold mb-4">Prices</h1>
+        <h1 className="font-display text-4xl sm:text-5xl font-semibold mb-4">Price List</h1>
         <p className="text-ink-muted max-w-xl mx-auto">
           Our latest studio prices. Updated {priceList.lastUpdated}.
         </p>

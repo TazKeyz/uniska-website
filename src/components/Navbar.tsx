@@ -11,7 +11,7 @@ type NavLink = HashNavLink | RouteNavLink
 
 const navLinks: NavLink[] = [
   { label: 'Press-Ons', type: 'route', to: '/press-ons' },
-  { label: 'Prices', type: 'route', to: '/prices' },
+  { label: 'Price List', type: 'route', to: '/prices' },
   { label: 'Portfolio', type: 'hash', hash: '#portfolio' },
   { label: 'About', type: 'hash', hash: '#about' },
   { label: 'Reviews', type: 'hash', hash: '#reviews' },
@@ -95,6 +95,11 @@ export function Navbar() {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
 
+  const handleRouteNavClick = () => {
+    setMobileOpen(false)
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
+
   const navLinkClass =
     'text-sm font-medium text-ink-muted hover:text-ink transition-colors'
 
@@ -117,7 +122,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-8">
           {navLinks.map((link) =>
             link.type === 'route' ? (
-              <Link key={link.to} to={link.to} className={navLinkClass}>
+              <Link key={link.to} to={link.to} onClick={handleRouteNavClick} className={navLinkClass}>
                 {link.label}
               </Link>
             ) : (
@@ -168,7 +173,7 @@ export function Navbar() {
                   <Link
                     key={link.to}
                     to={link.to}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={handleRouteNavClick}
                     className={mobileLinkClass}
                   >
                     {link.label}
