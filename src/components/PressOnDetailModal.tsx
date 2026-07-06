@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { ShoppingBag, X, Sparkles, Heart } from 'lucide-react'
+import { ShoppingBag, X, Sparkles, Heart, ZoomIn } from 'lucide-react'
 import { getWhatsAppUrl } from '../config'
 import type { PressOnProduct } from '../types/press-on'
 
@@ -58,11 +58,13 @@ function OptionPill({
 export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps) {
   const [shape, setShape] = useState<PressOnShape | null>(null)
   const [length, setLength] = useState<PressOnLength | null>(null)
+  const [imageExpanded, setImageExpanded] = useState(false)
 
   useEffect(() => {
     if (product) {
       setShape(null)
       setLength(null)
+      setImageExpanded(false)
     }
   }, [product?.id])
 
@@ -106,11 +108,22 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
 
             <div className="relative overflow-y-auto">
               <div className="relative bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/70 px-4 pt-6 pb-4 border-b border-pink-100/70">
-                <img
-                  src={product.fullSrc}
-                  alt={product.alt}
-                  className="relative z-10 w-full max-h-[38vh] object-contain mx-auto drop-shadow-md"
-                />
+                <button
+                  type="button"
+                  onClick={() => setImageExpanded(true)}
+                  className="relative z-10 block w-full group cursor-zoom-in"
+                  aria-label={`View full size image of ${product.name}`}
+                >
+                  <img
+                    src={product.fullSrc}
+                    alt={product.alt}
+                    className="w-full max-h-[38vh] object-contain mx-auto drop-shadow-md group-hover:scale-[1.02] transition-transform duration-300"
+                  />
+                  <span className="absolute bottom-2 right-2 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-semibold bg-white/90 text-ink shadow-md border border-pink-100/80 opacity-90 group-hover:opacity-100 transition-opacity">
+                    <ZoomIn size={14} className="text-pink-400" />
+                    Tap to enlarge
+                  </span>
+                </button>
               </div>
 
               <div className="relative px-5 sm:px-6 pb-6 pt-5 space-y-5 bg-linear-to-b from-cream via-white to-pastel-pink/25">
@@ -217,6 +230,40 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
               </div>
             </div>
           </motion.div>
+
+          <AnimatePresence>
+            {imageExpanded && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 z-[110] flex items-center justify-center p-4 bg-ink/85 backdrop-blur-sm"
+                onClick={() => setImageExpanded(false)}
+              >
+                <button
+                  type="button"
+                  onClick={() => setImageExpanded(false)}
+                  className="absolute top-4 right-4 z-10 p-2.5 rounded-full bg-white text-ink hover:bg-pastel-pink/50 transition-colors shadow-lg"
+                  aria-label="Close full size image"
+                >
+                  <X size={22} />
+                </button>
+                <motion.img
+                  initial={{ opacity: 0, scale: 0.95 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.95 }}
+                  transition={{ type: 'spring', stiffness: 300, damping: 28 }}
+                  src={product.fullSrc}
+                  alt={product.alt}
+                  className="max-w-full max-h-[90vh] object-contain rounded-2xl shadow-2xl"
+                  onClick={(e) => e.stopPropagation()}
+                />
+                <p className="absolute bottom-6 left-0 right-0 text-center text-sm text-white/80 font-medium">
+                  {product.name}
+                </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
       )}
     </AnimatePresence>
