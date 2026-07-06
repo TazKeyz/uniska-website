@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ZoomIn } from 'lucide-react'
+import { ChevronLeft, ChevronRight, X, ZoomIn } from 'lucide-react'
 import portfolioItems from '../data/portfolio.json'
 import {
   DEFAULT_PORTFOLIO_CATEGORY,
@@ -54,7 +54,44 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
     return sortItems(pool)
   }, [isPreview, activeCategory, nailArtItems])
 
-  const selected = items.find((item) => item.id === selectedId)
+  const selectedIndex = selectedId ? filtered.findIndex((item) => item.id === selectedId) : -1
+  const selected = selectedIndex >= 0 ? filtered[selectedIndex] : undefined
+  const canNavigate = filtered.length > 1
+
+  const goToPrevious = () => {
+    if (!canNavigate || selectedIndex < 0) return
+    const prevIndex = selectedIndex === 0 ? filtered.length - 1 : selectedIndex - 1
+    setSelectedId(filtered[prevIndex].id)
+  }
+
+  const goToNext = () => {
+    if (!canNavigate || selectedIndex < 0) return
+    const nextIndex = selectedIndex === filtered.length - 1 ? 0 : selectedIndex + 1
+    setSelectedId(filtered[nextIndex].id)
+  }
+
+  useEffect(() => {
+    if (!selected) return
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault()
+        if (!canNavigate || selectedIndex < 0) return
+        const prevIndex = selectedIndex === 0 ? filtered.length - 1 : selectedIndex - 1
+        setSelectedId(filtered[prevIndex].id)
+      } else if (event.key === 'ArrowRight') {
+        event.preventDefault()
+        if (!canNavigate || selectedIndex < 0) return
+        const nextIndex = selectedIndex === filtered.length - 1 ? 0 : selectedIndex + 1
+        setSelectedId(filtered[nextIndex].id)
+      } else if (event.key === 'Escape') {
+        setSelectedId(null)
+      }
+    }
+
+    window.addEventListener('keydown', onKeyDown)
+    return () => window.removeEventListener('keydown', onKeyDown)
+  }, [selected, selectedIndex, filtered, canNavigate])
 
   return (
     <>
@@ -127,6 +164,20 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
             className="fixed inset-0 z-[100] flex items-center justify-center p-4 sm:p-8 bg-ink/80 backdrop-blur-sm"
             onClick={() => setSelectedId(null)}
           >
+            {canNavigate && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  goToPrevious()
+                }}
+                className="absolute left-2 sm:left-6 top-1/2 -translate-y-1/2 z-[101] p-2.5 sm:p-3 rounded-full bg-white/95 text-ink hover:bg-white transition-colors shadow-lg border border-pink-100/80"
+                aria-label="Previous image"
+              >
+                <ChevronLeft size={22} className="sm:w-6 sm:h-6" />
+              </button>
+            )}
+
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -144,6 +195,7 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 <X size={20} />
               </button>
               <img
+                key={selected.id}
                 src={selected.src}
                 alt={selected.alt}
                 className="w-full h-auto max-h-[85vh] block"
@@ -155,6 +207,11 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 <h3 className="font-display text-2xl font-semibold mt-1 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                   {selected.title}
                 </h3>
+                {canNavigate && (
+                  <p className="text-white/80 mt-2 text-xs font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+                    {selectedIndex + 1} of {filtered.length}
+                  </p>
+                )}
                 {selected.description && (
                   <p className="text-white/90 mt-2 text-sm drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                     {selected.description}
@@ -162,6 +219,20 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 )}
               </div>
             </motion.div>
+
+            {canNavigate && (
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation()
+                  goToNext()
+                }}
+                className="absolute right-2 sm:right-6 top-1/2 -translate-y-1/2 z-[101] p-2.5 sm:p-3 rounded-full bg-white/95 text-ink hover:bg-white transition-colors shadow-lg border border-pink-100/80"
+                aria-label="Next image"
+              >
+                <ChevronRight size={22} className="sm:w-6 sm:h-6" />
+              </button>
+            )}
           </motion.div>
         )}
       </AnimatePresence>
