@@ -1,0 +1,38 @@
+[
+  {
+    "id": "1",
+    "name": "Blush Bloom",
+    "file": "1. Blush Bloom.jpg",
+    "coverSrc": "/press-on/Short/1. Blush Bloom.jpg",
+    "fullSrc": "/press-on/Full/1. Blush Bloom.jpg",
+    "alt": "Uniska Nails Studio — Blush Bloom press-on set",
+    "sortOrder": 1
+  },
+  {
+    "id": "2",
+    "name": "Soft Elegance",
+    "file": "2. Soft Elegance.jpg",
+    "coverSrc": "/press-on/Short/2. Soft Elegance.jpg",
+    "fullSrc": "/press-on/Full/2. Soft Elegance.jpg",
+    "alt": "Uniska Nails Studio — Soft Elegance press-on set",
+    "sortOrder": 2
+  },
+  {
+    "id": "3",
+    "name": "Ocean Mist",
+    "file": "3. Ocean Mist.jpg",
+    "coverSrc": "/press-on/Short/3. Ocean Mist.jpg",
+    "fullSrc": "/press-on/Full/3. Ocean Mist.jpg",
+    "alt": "Uniska Nails Studio — Ocean Mist press-on set",
+    "sortOrder": 3
+  },
+  {
+    "id": "4",
+    "name": "Classic French",
+    "file": "4. Classic French.jpg",
+    "coverSrc": "/press-on/Short/4. Classic French.jpg",
+    "fullSrc": "/press-on/Full/4. Classic French.jpg",
+    "alt": "Uniska Nails Studio — Classic French press-on set",
+    "sortOrder": 4
+  }
+]

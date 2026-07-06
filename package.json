@@ -9,7 +9,7 @@
   "scripts": {
     "portfolio": "node scripts/generate-portfolio.mjs",
     "reviews": "node scripts/generate-reviews.mjs",
-    "generate": "node scripts/generate-portfolio.mjs && node scripts/generate-reviews.mjs",
+    "generate": "node scripts/generate-portfolio.mjs && node scripts/generate-reviews.mjs && node scripts/generate-press-ons.mjs",
     "predev": "npm run generate",
     "prebuild": "npm run generate",
     "dev": "vite",

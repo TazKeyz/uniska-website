@@ -79,57 +79,6 @@ export const priceList = {
   ],
 }
 
-export const products = [
-  {
-    id: '1',
-    name: 'Blush Bloom',
-    price: '£18',
-    description: 'Soft pink ombré with delicate floral accents',
-    tag: 'Bestseller',
-    gradient: 'from-pink-200 via-rose-100 to-pink-300',
-  },
-  {
-    id: '2',
-    name: 'Ocean Mist',
-    price: '£18',
-    description: 'Pastel blue chrome with pearl shimmer finish',
-    tag: 'New',
-    gradient: 'from-sky-200 via-blue-100 to-cyan-200',
-  },
-  {
-    id: '3',
-    name: 'Cotton Candy',
-    price: '£20',
-    description: 'Pink and blue swirl with crystal embellishments',
-    tag: null,
-    gradient: 'from-pink-200 via-purple-100 to-sky-200',
-  },
-  {
-    id: '4',
-    name: 'Classic French',
-    price: '£16',
-    description: 'Timeless nude base with crisp white tips',
-    tag: null,
-    gradient: 'from-stone-100 via-rose-50 to-pink-100',
-  },
-  {
-    id: '5',
-    name: 'Midnight Glitz',
-    price: '£22',
-    description: 'Deep navy with silver glitter fade',
-    tag: 'Limited',
-    gradient: 'from-slate-300 via-indigo-200 to-sky-200',
-  },
-  {
-    id: '6',
-    name: 'Custom Set',
-    price: 'From £25',
-    description: 'Your vision, my craft — fully bespoke designs',
-    tag: 'Custom',
-    gradient: 'from-pink-200 via-sky-100 to-blue-200',
-  },
-]
-
 export function getWhatsAppUrl(message?: string) {
   const text = encodeURIComponent(message ?? siteConfig.whatsappMessage)
   return `https://wa.me/${siteConfig.whatsappNumber}?text=${text}`
