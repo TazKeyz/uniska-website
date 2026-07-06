@@ -139,14 +139,6 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 loading="lazy"
                 className={portfolioImageClass}
               />
-              <div className="p-3 sm:p-4 border-t border-pink-100/50">
-                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-400 font-semibold mb-1 block">
-                  {item.category}
-                </span>
-                <p className="text-ink font-display text-base sm:text-lg font-semibold leading-snug">
-                  {item.title}
-                </p>
-              </div>
               <div className="absolute top-3 right-3 p-2 rounded-full bg-white/90 text-ink shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
                 <ZoomIn size={16} />
               </div>
@@ -200,24 +192,13 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
                 alt={selected.alt}
                 className="w-full h-auto max-h-[85vh] block"
               />
-              <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pointer-events-none">
-                <span className="text-xs uppercase tracking-widest text-pink-200 font-semibold drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-                  {selected.category}
-                </span>
-                <h3 className="font-display text-2xl font-semibold mt-1 text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-                  {selected.title}
-                </h3>
-                {canNavigate && (
-                  <p className="text-white/80 mt-2 text-xs font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
+              {canNavigate && (
+                <div className="absolute inset-x-0 bottom-0 p-5 sm:p-6 pointer-events-none">
+                  <p className="text-white/80 text-xs font-medium drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
                     {selectedIndex + 1} of {filtered.length}
                   </p>
-                )}
-                {selected.description && (
-                  <p className="text-white/90 mt-2 text-sm drop-shadow-[0_1px_3px_rgba(0,0,0,0.85)]">
-                    {selected.description}
-                  </p>
-                )}
-              </div>
+                </div>
+              )}
             </motion.div>
 
             {canNavigate && (

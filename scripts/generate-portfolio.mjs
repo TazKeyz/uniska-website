@@ -12,16 +12,6 @@ const skipFiles = new Set(['.gitkeep', 'desktop.ini', 'thumbs.db'])
 
 const categoryOrder = ['Nail Art', 'Gel Nails', 'Press-Ons', 'Gallery']
 
-function humanize(text) {
-  return text
-    .replace(/\.[^.]+$/, '')
-    .replace(/^\d+[-_.\s]*/, '')
-    .replace(/[-_]+/g, ' ')
-    .replace(/\s+/g, ' ')
-    .trim()
-    .replace(/\b\w/g, (char) => char.toUpperCase())
-}
-
 function formatCategory(folderName) {
   return folderName
     .replace(/[-_]+/g, ' ')
@@ -87,17 +77,14 @@ function buildPortfolio() {
 
   const discovered = sortPortfolioItems(walk(portfolioDir))
 
-  const items = discovered.map((item, index) => {
-    const title = humanize(item.file) || `Design ${item.sortOrder}`
-    return {
-      id: String(index + 1),
-      title,
-      category: item.category,
-      src: item.src,
-      alt: `Uniska Nails Studio — ${title}`,
-      sortOrder: item.sortOrder,
-    }
-  })
+  const items = discovered.map((item, index) => ({
+    id: String(index + 1),
+    title: '',
+    category: item.category,
+    src: item.src,
+    alt: `Uniska Nails Studio — ${item.category} portfolio`,
+    sortOrder: item.sortOrder,
+  }))
 
   fs.writeFileSync(outputFile, `${JSON.stringify(items, null, 2)}\n`)
   console.log(`Portfolio: ${items.length} image(s) found in public/portfolio/`)
