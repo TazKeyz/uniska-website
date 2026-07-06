@@ -82,32 +82,34 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
-          className="fixed inset-0 z-[100] flex items-end sm:items-center justify-center p-0 sm:p-6 bg-rose-950/30 backdrop-blur-md"
+          className="fixed inset-0 z-[100] overflow-y-auto overscroll-contain bg-rose-950/30 backdrop-blur-md"
           onClick={onClose}
         >
-          <motion.div
-            initial={{ opacity: 0, y: 40, scale: 0.98 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 24, scale: 0.98 }}
-            transition={{ type: 'spring', stiffness: 320, damping: 30 }}
-            className="relative w-full sm:max-w-lg max-h-[94vh] rounded-t-[2rem] sm:rounded-[2rem] overflow-hidden flex flex-col shadow-2xl shadow-pink-300/40 border border-pink-100/90 bg-cream"
-            onClick={(e) => e.stopPropagation()}
-          >
-            <div className="pointer-events-none absolute -top-16 -right-10 w-40 h-40 rounded-full bg-pastel-pink/70 blur-3xl" />
-            <div className="pointer-events-none absolute top-1/3 -left-12 w-36 h-36 rounded-full bg-pastel-blue/60 blur-3xl" />
-            <div className="pointer-events-none absolute bottom-24 right-0 w-28 h-28 rounded-full bg-pastel-pink-deep/40 blur-2xl" />
-
-            <button
-              type="button"
-              onClick={onClose}
-              className="absolute top-4 right-4 z-10 p-2 rounded-full bg-white text-ink hover:bg-pastel-pink/50 transition-colors shadow-md shadow-pink-100/60 border border-pink-100/80"
-              aria-label="Close"
+          <div className="min-h-full flex items-end sm:items-center justify-center p-0 sm:p-6">
+            <motion.div
+              initial={{ opacity: 0, y: 40, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 24, scale: 0.98 }}
+              transition={{ type: 'spring', stiffness: 320, damping: 30 }}
+              className="relative w-full sm:max-w-lg rounded-t-[2rem] sm:rounded-[2rem] border border-pink-100/90 bg-cream shadow-2xl shadow-pink-300/40"
+              onClick={(e) => e.stopPropagation()}
             >
-              <X size={20} />
-            </button>
+              <div className="sticky top-0 z-50 flex justify-end p-3 sm:p-4 bg-linear-to-b from-cream from-70% to-transparent pointer-events-none">
+                <button
+                  type="button"
+                  onClick={onClose}
+                  className="pointer-events-auto p-2.5 rounded-full bg-white text-ink hover:bg-pastel-pink/50 transition-colors shadow-lg shadow-pink-200/50 border border-pink-100/80"
+                  aria-label="Close"
+                >
+                  <X size={20} />
+                </button>
+              </div>
 
-            <div className="relative overflow-y-auto">
-              <div className="relative bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/70 px-4 pt-6 pb-4 border-b border-pink-100/70">
+              <div className="-mt-14 sm:-mt-16 relative">
+                <div className="pointer-events-none absolute -top-16 -right-10 w-40 h-40 rounded-full bg-pastel-pink/70 blur-3xl" />
+                <div className="pointer-events-none absolute top-1/3 -left-12 w-36 h-36 rounded-full bg-pastel-blue/60 blur-3xl" />
+
+                <div className="relative bg-linear-to-br from-pastel-pink/80 via-white to-pastel-blue/70 px-4 pt-2 pb-4 border-b border-pink-100/70">
                 <button
                   type="button"
                   onClick={() => setImageExpanded(true)}
@@ -229,7 +231,8 @@ export function PressOnDetailModal({ product, onClose }: PressOnDetailModalProps
                 )}
               </div>
             </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           <AnimatePresence>
             {imageExpanded && (

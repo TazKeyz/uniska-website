@@ -12,7 +12,7 @@ type NavLink = HashNavLink | RouteNavLink
 const navLinks: NavLink[] = [
   { label: 'Press-Ons', type: 'route', to: '/press-ons' },
   { label: 'Price List', type: 'route', to: '/prices' },
-  { label: 'Portfolio', type: 'hash', hash: '#portfolio' },
+  { label: 'Portfolio', type: 'route', to: '/portfolio' },
   { label: 'About', type: 'hash', hash: '#about' },
   { label: 'Reviews', type: 'hash', hash: '#reviews' },
   { label: 'Contact', type: 'hash', hash: '#contact' },
