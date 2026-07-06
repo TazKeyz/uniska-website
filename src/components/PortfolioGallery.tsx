@@ -5,6 +5,7 @@ import portfolioItems from '../data/portfolio.json'
 import {
   DEFAULT_PORTFOLIO_CATEGORY,
   PORTFOLIO_PREVIEW_COUNT,
+  portfolioImageClass,
   type PortfolioItem,
 } from '../types/portfolio'
 
@@ -93,27 +94,24 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               exit={isPreview ? undefined : { opacity: 0, scale: 0.92 }}
               transition={{ duration: 0.35, delay: isPreview ? index * 0.05 : index * 0.02 }}
               onClick={() => setSelectedId(item.id)}
-              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300"
+              className="group relative overflow-hidden rounded-2xl sm:rounded-3xl text-left bg-white shadow-md shadow-pink-100/40 border border-pink-100/60 focus:outline-none focus-visible:ring-2 focus-visible:ring-pink-300"
             >
-              <div className="relative w-full aspect-[4/5]">
-                <img
-                  src={item.src}
-                  alt={item.alt}
-                  loading="lazy"
-                  className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-linear-to-t from-ink/70 via-ink/10 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                <div className="absolute inset-0 flex flex-col justify-end p-4 sm:p-5">
-                  <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-200 font-semibold mb-1">
-                    {item.category}
-                  </span>
-                  <p className="text-white font-display text-base sm:text-lg font-semibold">
-                    {item.title}
-                  </p>
-                </div>
-                <div className="absolute top-3 right-3 p-2 rounded-full bg-white/20 backdrop-blur-sm text-white opacity-0 group-hover:opacity-100 transition-opacity">
-                  <ZoomIn size={16} />
-                </div>
+              <img
+                src={item.src}
+                alt={item.alt}
+                loading="lazy"
+                className={portfolioImageClass}
+              />
+              <div className="p-3 sm:p-4 border-t border-pink-100/50">
+                <span className="text-[10px] sm:text-xs uppercase tracking-widest text-pink-400 font-semibold mb-1 block">
+                  {item.category}
+                </span>
+                <p className="text-ink font-display text-base sm:text-lg font-semibold leading-snug">
+                  {item.title}
+                </p>
+              </div>
+              <div className="absolute top-3 right-3 p-2 rounded-full bg-white/90 text-ink shadow-md opacity-0 group-hover:opacity-100 transition-opacity">
+                <ZoomIn size={16} />
               </div>
             </motion.button>
           ))}
@@ -134,13 +132,13 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.9, y: 20 }}
               transition={{ type: 'spring', stiffness: 300, damping: 28 }}
-              className="relative max-w-3xl w-full glass rounded-3xl overflow-hidden"
+              className="relative max-w-3xl w-full bg-white rounded-3xl overflow-hidden shadow-2xl shadow-pink-200/30 border border-pink-100/80"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 type="button"
                 onClick={() => setSelectedId(null)}
-                className="absolute top-4 right-4 z-20 p-2 rounded-full bg-white/80 text-ink hover:bg-white transition-colors"
+                className="absolute top-4 right-4 z-20 p-2.5 rounded-full bg-white/95 text-ink hover:bg-white transition-colors shadow-lg border border-pink-100/80"
                 aria-label="Close"
               >
                 <X size={20} />
@@ -148,7 +146,7 @@ export function PortfolioGallery({ variant = 'full' }: PortfolioGalleryProps) {
               <img
                 src={selected.src}
                 alt={selected.alt}
-                className="w-full max-h-[70vh] object-cover"
+                className="w-full max-h-[85vh] object-contain bg-white block"
               />
               <div className="p-5 sm:p-6">
                 <span className="text-xs uppercase tracking-widest text-pink-400 font-semibold">

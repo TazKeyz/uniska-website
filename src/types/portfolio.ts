@@ -10,3 +10,6 @@ export type PortfolioItem = {
 
 export const DEFAULT_PORTFOLIO_CATEGORY = 'Nail Art'
 export const PORTFOLIO_PREVIEW_COUNT = 6
+
+/** Show full portfolio photos without cropping */
+export const portfolioImageClass = 'w-full h-auto block'
